@@ -1,0 +1,55 @@
+\npara Decentralisation of the reputation management system in an \hyperref[Acronym-IoT]{IoT} system based on agent geographical locations is a relative new topic.
+For this reason, there are no many direct related works.
+This section divides the reviews of the literature into different related categories, which are \textit{\nameref{RelatedWorks-ReputationManagementSystem}}, \textit{\nameref{RelatedWorks-BlockchainIoT}}, and \textit{\nameref{RelatedWorks-Spatial}}.
+
+\section{Trust and Reputation Management System} \label{RelatedWorks-ReputationManagementSystem}
+
+\npara There are several related works regarding an IoT system architecture to manage reputation values and trusts.
+In \cite{TrustArchitectureReputationEvaluation}'s work, the architecture divides the reputation management into five layers: reputation management layer, organisation layer, \hyperref[Acronym-SDN]{SDN} control layer, node layer and object layer.
+Users requests for an operation of the \hyperref[Acronym-IoT]{IoT} device through the organisation layer, which is the middle way between the reputation management centre and the end nodes.
+The organisation layer decides whether the requested node is trustworthy before executing the action.
+Devices in this work do not execute their actions by themselves without a decision from the organisation layer.
+\cite{TrustBasedAirQualitySensing} also purposed an interesting scenario of moving \hyperref[Acronym-IoT]{IoT} devices and an architecture to manage their trust values.
+The work is based on a scenario of sharing air quality data, whose trust are evaluated by user's experience towards another target user in a different area.
+The consumer chooses the most trustworthy data provider and decide whether the air quality in the target area is satisfying, so that they can move into the area.
+The work is not based on the reputation value, which is a common expectation value towards one agent in the system, but it is based on a subjective trust, which is a one-to-one relationship between each device.
+Furthermore, the management system is centralised in the cloud as all trust values of each device relationship are stored there, therefore the dependency of calculation and storage of the values are depend on the cloud layer.
+
+\npara There were also works that tried to decentralise the trust management system as well.
+\cite{PublicFogReputationEthereum}'s work proposed an architecture of a decentralised reputation management system in an Ethereum network by using Smart Contract.
+In this work, end devices are in charge of evaluating the fog devices and store their reputation values in the Smart Contract.
+The work is a good example of designing an architecture of reputation management using Smart Contract in \hyperref[Acronym-IoT]{IoT}.
+However, the reputation value in this work is subjected to fog devices, not to edge devices, which serves different propose from this thesis.
+Additionally, \cite{IoETrustBlockchain} has proposed a cloud-fog-edge-based architecture to manage trust values of devices in the system.
+The Blockchain network is implemented in the fog layer.
+In this architecture, an end device generates the reputation information of another device in a transaction, and sign it before submitting to the Blockchain network.
+The values are stored in the Blockchain and, therefore, they are shared across different fog nodes in different areas.
+However, the reputation value itself is the same even the device has moved to a different region.
+A spatial context is not considered for managing the reputation values.
+
+\section{Blockchain and IoT} \label{RelatedWorks-BlockchainIoT}
+
+\npara In the previous section (\textit{\nameref{RelatedWorks-ReputationManagementSystem}}), there have been already mentioned some works using blockchain to serve trust management purpose:
+  \cite{PublicFogReputationEthereum}'s uses Smart Contract in Ethereum to store reputation values of fog devices,
+  and \cite{IoETrustBlockchain} uses Blockchain in fog layer to store reputation of devices.
+This section explores more of the Blockchain usage in \hyperref[Acronym-IoT]{IoT} systems regardless of relevance to trust management system.
+
+\npara \cite{ManageIoTBlockchain} implemented the Ethereum Smart Contract in an \hyperref[Acronym-IoT]{IoT} system to manage devices and control their behaviour policies.
+The work shows that using of Smart Contract allows the system to configure device rules and able to control them in a distributed way.
+\cite{RaspberryPiEthereum}'s work also showed the possibility of deploying Blockchain network in IoT devices by using Raspberry Pi as a node.
+This implies that \hyperref[Acronym-IoT]{IoT} devices, comparing to modern computer, smaller in size, better in mobility, are powerful enough to run necessary computations for being a Blockchain node.
+
+\section{Spatial Indexing} \label{RelatedWorks-Spatial}
+
+\npara In the fundamental level, computer recognises all the digital data as binary integers, which means more complex data requires these binaries to be formed in a more complicated structure and have proper algorithms to work with them.
+This applies to the geospatial data.
+Digitalised lines, points or polygons in a space require binary representation.
+It also needs indexing for speeding up the query.
+This section explores the works that use spatial indexing techniques and their usage in Blockchain.
+
+\npara \cite{SpatioTemporalComparison} compared different techniques of geocoding between raw geographical object (coordinates), Z-Order space-filling curve (Geohash), and Hilbert space-filling curve, in terms of computation, efficiency, and utility.
+The study showed that geocoding using the Hilbert curve performed better in most of the aspects.
+\cite{GeofencesBlockchain} used Geohash and S2 to fit a desired region.
+The resulted cells were used for being a geofence, stored in a Smart Contract.
+The work demonstrated the feasibility of handling spatial data in Smart Contracts.
+They finally concluded that in their work S2 has a better performance than Geohash.

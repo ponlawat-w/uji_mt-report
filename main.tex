@@ -1,0 +1,158 @@
+\documentclass[12pt,twoside,numbers=endperiod]{scrreprt}
+\addtokomafont{disposition}{\rmfamily}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{natbib}
+\usepackage{parskip}
+\usepackage{eurosym}
+\usepackage{float}
+\usepackage{url}
+\usepackage{minted}
+\usepackage{listings}
+\usepackage{afterpage}
+% \usepackage{ftnxtra}
+% \usepackage{fnpos}
+% \usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{ltablex}
+\usepackage{spverbatim}
+\usepackage{makecell}
+\usepackage[export]{adjustbox}
+\usepackage{hyperref}
+\usepackage{wrapfig}
+
+% \renewcommand\chapterformat{\chapapp\ \thechapter}
+\renewcommand\sectionformat{\thesection\hspace{1em}}
+\renewcommand\subsectionformat{\thesubsection\hspace{1em}}
+
+%%% START koma
+\setkomafont{chapter}{\normalfont\bfseries\Huge}
+\renewcommand\chaptername{}
+\RedeclareSectionCommand[
+  innerskip = 0pt,
+  beforeskip = 0pt,
+  afterskip = 10pt
+]{chapter}
+\RedeclareSectionCommands[
+%   innerskip = 0pt,
+  beforeskip = 5pt,
+  afterskip = 2pt
+]{section, subsection, subsubsection}
+%%% END koma
+
+%%% START titlesec
+% \titleformat{\chapter}%
+%   {\normalfont\bfseries\Huge}{\thechapter.}{10pt}{}
+% \titlespacing*{\chapter}{0pt}{0pt}{10pt}
+% \titlespacing*{\section}
+% {0pt}{5ex}{2ex}
+% \titlespacing*{\subsection}
+% {0pt}{5ex}{2ex}
+% \titlespacing*{\subsubsection}
+% {0pt}{5ex}{2ex}
+%%% END titlesec
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[CO,CE]{\nouppercase{\leftmark}}
+\fancyfoot{}
+\fancyfoot[CO,CE]{\thepage}
+\lstset{
+  breaklines=true,
+  basicstyle=\ttfamily
+}
+\renewcommand{\chaptermark}[1]{%
+\markboth{\thechapter.\ #1}{}}
+\renewcommand{\baselinestretch}{1.2}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\newcommand{\npara}{
+  \parskip=8pt
+  \parindent=0.2in
+}
+\newcommand{\textbi}[1]{\textbf{\textit{#1}}}
+\newcommand{\code}{\texttt}
+    
+\begin{document}
+
+\definecolor{codeblock}{rgb}{0.86, 0.86, 0.86}
+
+\input{titlepage.tex}
+
+\pagenumbering{Roman} 
+
+\input{abstract.tex}
+
+% \input{dedication.tex}
+
+\input{acknowledgements.tex}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\label{TableOfContents} \tableofcontents
+
+\label{ListOfFigures} \listoffigures
+% \addcontentsline{toc}{chapter}{List of Figures}
+
+\label{ListOfTables} \listoftables
+% \addcontentsline{toc}{chapter}{List of Tables}
+
+\chapter*{Acronym} \label{Acronym}
+\input{acronym.tex}
+\newpage
+
+\pagenumbering{arabic}
+
+\chapter{Introduction} \label{Introduction}
+\input{mainSection/00-introduction.tex}
+
+\chapter{Background} \label{Background}
+\input{mainSection/01-background.tex}
+
+\chapter{Related Works} \label{RelatedWorks}
+\input{mainSection/02-related-works.tex}
+
+\chapter{Methodology} \label{Methodology}
+\input{mainSection/03-methodology.tex}
+
+\chapter{Development and Experimental Results} \label{Results}
+\input{mainSection/04-results.tex}
+\newpage
+
+\fancypagestyle{conclusion}{
+\fancyhead{}
+\fancyhead[CO,CE]{Conclusion and Future Work}
+\fancyfoot{}
+\fancyfoot[CO,CE]{\thepage}}
+\pagestyle{conclusion}
+\chapter*{Conclusion and Future Work} \label{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion \& Future Work}
+\input{mainSection/zz-conclusion.tex}
+\newpage
+
+\fancypagestyle{bib}{
+\fancyhead{}
+\fancyhead[CO,CE]{Bibliography}
+\fancyfoot{}
+\fancyfoot[CO,CE]{\thepage}}
+\pagestyle{bib}
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\appendix
+\fancypagestyle{appendix}{
+\fancyhead{}
+\fancyhead[CO,CE]{Appendix}
+\fancyfoot{}
+\fancyfoot[CO,CE]{\thepage}}
+\chapter*{Appendix}
+\addcontentsline{toc}{chapter}{Appendix}
+\input{appendix.tex}
+
+\end{document}

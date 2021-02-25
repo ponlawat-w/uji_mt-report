@@ -1,0 +1,107 @@
+\section*{Conclusion} \label{Conclusion-Conclusion}
+
+\npara This thesis has proposed an architecture of reputation and device management system in \hyperref[Acronym-IoT]{IoT}, based on the cloud-fog-edge architecture.
+The architecture in this work uses device location to determine its associated area, which is a factor in managing the reputation data.
+The management system is implemented in the fog layer in a decentralised way by using Blockchain technologies.
+The work adopted Ethereum as a Blockchain network because it provides a Smart Contract which allows an executable programme to be stored in the Blockchain network.
+The Smart Contracts store the spatial data of associated areas for discovering and querying registered services and their reputation values.
+For complexity and performance reasons, a polygon object that represents an area is encoded using hierarchical geocoding techniques: either Geohash or S2.
+This work also proposed a compression algorithm aimed to reduce the geocoded data.
+
+\npara The first experiment of this work compared Geohash and S2 geocoding techniques \hyperref[ResearchQuestion-Geocoding]{(RQ\ref{ResearchQuestion-Geocoding})}.
+Despite \hyperref[Results-TechniqueComparison-Concern]{\textit{a few concerns regarding the comparison}}, the experiment results showed that S2 took a significant less time to encode a polygon into a list of cells.
+In term of data size, there were no much difference between the two techniques.
+The proposed compression algorithm showed a satisfied outcome, because it can largely reduce the data size.
+
+\npara The second experiment implemented the proposed architecture and test it with a large number of random input data (RQ\ref{ResearchQuestion-DecentralisedFog}, \ref{ResearchQuestion-SpatialBlockchain}).
+The experiment also run twice on the different Smart Contracts based on Geohash and S2 \hyperref[ResearchQuestion-Geocoding]{(RQ\ref{ResearchQuestion-Geocoding})}.
+The results showed that the Smart Contracts were able to function as expected to manage the reputation values and device service discovery in a decentralised way.
+The Smart Contract based on Geohash was able to query for a region faster and consumed less Ethereum gas than the S2 one because there are less iterations in changing the cell level.
+However, the compressed data using the proposed compression algorithm consumed more gas in the Smart Contracts, which means the compression algorithm is not suitable for the current proposed architecture.
+The experiment also resulted that Raspberry Pi was unable to mine a block in the Ethereum network using the default Proof-of-Work as a consensus algorithm due to its hardware limitation, which means without changing the Blockchain consensus algorithm, it needs a bigger computer as another node in the fog layer in order to keep the Blockchain network to be functional.
+
+\npara The last experiment deployed the developed architecture to the \hyperref[Acronym-IoT]{IoT} devices by using Particle boards as the edge devices and Raspberry Pi as the fog device (\hyperref[ResearchQuestion-DecentralisedFog]{RQ\ref{ResearchQuestion-DecentralisedFog}}).
+The result demonstrated that the Raspberry Pi as a fog node was able to serve an \hyperref[Acronym-API]{API} service and interact with the Smart Contracts.
+In the edge layer, the service provider was able to serve its service, and able to sign the transaction to interact with the Smart Contract through the fog layer.
+At the same time, the service consumer was also able to communicate with the fog layer in order to discover a provider with its reputation data, and was able to make a decision to consume the service based on the reputation data.
+
+\section*{Encountered Problems and Solutions} \label{Conclusion-Problems}
+
+\npara This section discusses the problems encountered during this thesis and their solutions.
+
+\npara \textbi{Bitwise Operations in JavaScript}:
+The implementation of proposed architecture in this work is based on JavaScript language for the reasons elaborated in \textit{\ref{Methodology-ExperimentDesign-Development}, \ref{Methodology-ExperimentDesign-Deployment}}.
+An unexpected problem during the implementation regarding the limitation of JavaScript was that, this language does not support bit-wise operation for an integer with length more than 32 bits \citep{JavaScriptOperators}.
+The reason is that although the language stores the numeric data in 64 bits, the binaries are in \hyperref[Acronym-IEEE]{IEEE} 754 floating-point standard, not in a general integer.
+The default integer that is supported by the language is only 32-bit length.
+The problem occurred when working with the geocoded data, especially in S2, whose data are stored with a 64-bit integer.
+This issue can be tackled by using an external library or splitting every data into two parts, 32-bit each.
+However, there were no intensive bit-wise operations in the proposed algorithms; hence, for simplicity reason, the data were converted to hexadecimal numbers as a textual string, and handled by built-in string functions.
+
+\npara \textbi{Gas Limit in Ethereum}:
+An execution of Smart Contracts in an \hyperref[Acronym-EVM]{EVM} is based on \textit{gas value}, similar to electric consumption in a physical computer.
+The method caller has to pay for the gas at the rate of \textit{gas price} defined in each network.
+The amount of gas spent in a method is defined by Ethereum, which is varied and depends on the opcodes executed in the Smart Contract.
+Consequently, sending a big input data to the Smart Contract consumes more gas and is likely to be failed due to the gas limit.
+The solution to this problem is to chunk the input data into a smaller size, and send them in separated transactions.
+
+\npara \textbi{Positioning Module in Edge Device}:
+The designed architecture uses the spatial context to query and manage devices and their reputation data.
+Therefore, an edge device is expected to be movable and, consequently, equipped with a positioning module, for example, a \hyperref[Acronym-GPS]{GPS} module.
+However, due to the environment limitation of the university laboratory, the time constraint of the thesis, and the avoidance of physical working due to the ongoing pandemic in the time of this work, it was not able to obtain a positioning module for the edge devices to test the scenario of the architecture.
+Thus, the service consumption \hyperref[Acronym-API]{API} in the provider device exposed another endpoint to let the user to manually set its location.
+In a practical implementation, this \hyperref[Acronym-API]{API} endpoint is expected to be removed, and replaced by a data reading function from the positioning module.
+The location read is expected to be geocoded into Geohash or S2 cell, depended on the technique used in the Smart Contracts.
+
+\section*{Result Discussion} \label{Conclusion-Disscusion}
+
+\subsection*{Architecture} \label{Conclusion-Discussion-Architecture}
+
+\npara The results in \textit{\ref{Results-Development}}, \textit{\ref{Results-Simulation}} and \textit{\ref{Results-Development}} showed that the proposed architecture was functional, either in a simulation mode within a single machine, or in an \hyperref[Acronym-IoT]{IoT} system using distributed devices.
+A fog device can be an Ethereum node to handle the Smart Contract execution.
+There were some delay for a transaction to be mined as a new block over the network, which is an expected disadvantage of the Blockchain.
+Hence, using the Blockchain network might not be suitable for a \textit{real time} system, or a system that updates data frequently.
+
+\npara In addition, not only a fog device, but an edge also showed that it can be a part of the Blockchain network despite its limited computational ability, because it was able to perform the \hyperref[Acronym-ECDSA]{ECDSA} calculation to sign a transaction using an assigned private key.
+This ability in the edge device allows the proposed architecture to be more secure, because even the fog node who submits the transaction for edge devices, they cannot tamper its data as long as the private key is not known.
+
+\subsection*{Spatial Smart Contract} \label{Conclusion-Disccusion-Spatial}
+
+\npara The \hyperref[Results]{\textit{experiment results}} showed that a spatial context can be added to the Smart Contract.
+The contract in the system was not designed for storing an exact original polygon, instead, the data were geocoded before added to the Smart Contract.
+A trade-off of using geocoding techniques is the loss of precision, because the geocoded data are not able to exactly represent the original area.
+This drawback affects the accuracy when querying a point near the border of an area.
+However, the main objective of this work is not to store the same geographical object in the Smart Contracts, but to use it as a spatial context of managing and querying for data; hence, this error is acceptable.
+Furthermore, the geocoded data can also be sorted and indexed in a data lookup table, so it can easily and quickly find out whether a cell is inside any region or not, without involving any geometric calculation.
+
+\subsection*{Geocoding Techniques} \label{Conclusion-Disscussion-Geocoding}
+
+\npara This work used two geocoding techniques: \textit{Geohash} and \textit{S2}.
+The result from the section \textit{\ref{Results-TechniqueComparison}} showed no significant difference between the two techniques in terms of size.
+However, the experiment in \textit{\ref{Results-Simulation}} showed that Geohash was slightly faster in the developed Smart Contracts.
+Therefore, it is enough to use Geohash in the proposed architecture unless there are further developments that need the advantages of the S2.
+
+\section*{Suggestions for Future Development} \label{Conclusion-Suggestions}
+
+\npara This section suggests the possibilities of the further development in several aspects.
+Firstly, this work proposed only a management architecture, but not the calculation of the value.
+The information collected from the devices in this work can be used in the future works to generate a real reputation value of the service providers, such as using a machine learning technique to detect abnormalities in the sensory data, or to use the feedback from the consumers as a factor to calculate the value.
+
+\npara There is vulnerable information transmitted between devices in the proposed architecture, which is the Ethereum private key when assigning a new device or the passphrase when communicating with the fog \hyperref[Acronym-API]{API}.
+To avoid the data being eavesdropped by a third person, in practice, it is suggested to use a secure \hyperref[Acronym-HTTP]{HTTP} channel (\hyperref[Acronym-HTTPS]{HTTPS}) to encrypt the messages in the communication.
+
+\npara Additionally, this work proposed an abstract architecture for managing the reputation values that can be applied in the other \hyperref[Acronym-IoT]{IoT} applications.
+In practical implementation, the communication between devices in a system can follow a common \hyperref[Acronym-IoT]{IoT} standard, such as \textit{Mozilla WebThing}s\footnote{\url{https://iot.mozilla.org/}} or \textit{OGC SensorThings}\footnote{\url{https://www.ogc.org/standards/sensorthings}}.
+The integration between the architecture and these standards is needed to be studied in the future to make the proposed concept to be more practical.
+
+\npara Regarding the geocoding techniques, the experiments demonstrated that Geohash is enough for the current work.
+However, \hyperref[RelatedWorks]{\textit{the related works}} shows that S2 performs better in the different aspects.
+Therefore, the usage of S2 and its further spatial computation can be more studied for the future works.
+Furthermore, the geocoded data in this work were also compressed by the proposed tree-based algorithm, which was later empirically proved that it does not help to reduce the Ethereum gas consumption.
+Nevertheless, its advantage of significant data size reduction could be taken in another future work.
+In the other way, the data structures inside the Smart Contracts of this work could be changed to take the compression advantage from the algorithm.
+
+\npara Finally, this thesis demonstrated the possibility of manipulating spatial data in a decentralised application.
+Despite the Smart Contract limitations compared to a traditional application, it is worth further studying more advanced spatial data manipulation in a decentralised context.
+To be more precise, this work only use the geocoding technique for querying the spatial data.
+The future development could extend this part and perform a different spatial calculation, for example a range query, region adjacency, intersection, or handling other spatial data types such as points or lines.

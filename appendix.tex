@@ -1,0 +1,94 @@
+\pagestyle{appendix} \label{Appendix}
+
+\section*{Base32 and Base64 Representation} \label{Appendix-Base32}
+
+\npara Base32 and base64 are binary encoding techniques which convert a binary data in to a textual representation.
+A character in base32 represents 5 bits of data.
+For this reason, there are 2\textsuperscript{5}, which is 32, different characters to represent the binary group.
+In a similar way, a character in base64 represents 6 bits of data, so there are 64 different characters to represent a data group in base64.
+
+\npara Table \ref{tab:Base32} and \ref{tab:Base64} shows the representation in base32 and base64, respectively.
+
+\renewcommand{\thetable}{A.1}
+\begin{table}[hbt!]
+  \centering
+  \begin{tabular}{|c|c|c||c|c|c|}
+    \hline
+    Decimal & Binary & Base32 & Decimal & Binary & Base32 \\
+    \hline
+    0 & \code{00000} & \code{0} & 16 & \code{10000} & \code{h} \\
+    1 & \code{00001} & \code{1} & 17 & \code{10001} & \code{j} \\
+    2 & \code{00010} & \code{2} & 18 & \code{10010} & \code{k} \\
+    3 & \code{00011} & \code{3} & 19 & \code{10011} & \code{m} \\
+    4 & \code{00100} & \code{4} & 20 & \code{10100} & \code{n} \\
+    5 & \code{00101} & \code{5} & 21 & \code{10101} & \code{p} \\
+    6 & \code{00110} & \code{6} & 22 & \code{10110} & \code{q} \\
+    7 & \code{00111} & \code{7} & 23 & \code{10111} & \code{r} \\
+    8 & \code{01000} & \code{8} & 24 & \code{11000} & \code{s} \\
+    9 & \code{01001} & \code{9} & 25 & \code{11001} & \code{t} \\
+    10 & \code{01010} & \code{b} & 26 & \code{11010} & \code{u} \\
+    11 & \code{01011} & \code{c} & 27 & \code{11011} & \code{v} \\
+    12 & \code{01100} & \code{d} & 28 & \code{11100} & \code{w} \\
+    13 & \code{01101} & \code{e} & 29 & \code{11101} & \code{x} \\
+    14 & \code{01110} & \code{f} & 30 & \code{11110} & \code{y} \\
+    15 & \code{01111} & \code{g} & 31 & \code{11111} & \code{z} \\
+    \hline
+  \end{tabular}
+  \caption{Base32 representation used in Geohash}
+  \label{tab:Base32}
+\end{table}
+
+\renewcommand{\thetable}{A.2}
+\begin{table}[hbt!]
+  \centering
+  \begin{tabular}{|c|c||c|c||c|c||c|c|}
+    \hline
+    Dec & Base64 & Dec & Base64 & Dec & Base64 & Dec & Base64 \\
+    \hline
+    0 & \code{A} & 16 & \code{Q} & 32 & \code{g} & 48 & \code{w} \\
+    1 & \code{B} & 17 & \code{R} & 33 & \code{h} & 49 & \code{x} \\
+    2 & \code{C} & 18 & \code{S} & 34 & \code{i} & 50 & \code{y} \\
+    3 & \code{D} & 19 & \code{T} & 35 & \code{j} & 51 & \code{z} \\
+    4 & \code{E} & 20 & \code{U} & 36 & \code{k} & 52 & \code{0} \\
+    5 & \code{F} & 21 & \code{V} & 37 & \code{l} & 53 & \code{1} \\
+    6 & \code{G} & 22 & \code{W} & 38 & \code{m} & 54 & \code{2} \\
+    7 & \code{H} & 23 & \code{X} & 39 & \code{n} & 55 & \code{3} \\
+    8 & \code{I} & 24 & \code{Y} & 40 & \code{o} & 56 & \code{4} \\
+    9 & \code{J} & 25 & \code{Z} & 41 & \code{p} & 57 & \code{5} \\
+    10 & \code{K} & 26 & \code{a} & 42 & \code{q} & 58 & \code{6} \\
+    11 & \code{L} & 27 & \code{b} & 43 & \code{r} & 59 & \code{7} \\
+    12 & \code{M} & 28 & \code{c} & 44 & \code{s} & 60 & \code{8} \\
+    13 & \code{N} & 29 & \code{d} & 45 & \code{t} & 61 & \code{9} \\
+    14 & \code{O} & 30 & \code{e} & 46 & \code{u} & 62 & \code{+} \\
+    15 & \code{P} & 31 & \code{f} & 47 & \code{v} & 63 & \code{/} \\
+    \hline
+  \end{tabular}
+  \caption{Base64 representation}
+  \label{tab:Base64}
+\end{table}
+
+\newpage
+\section*{Geocoded Data Compression Structures} \label{Appendix-GeocodingCompress}
+
+\npara Geohash uses 5 bit to store one level.
+The first bit is not used.
+The next two bits indicate the open or close marking: \code{00} to be the end of the tree, \code{01} to be open mask, \code{10} to be close mask.
+The last five bits store the base32-encoded data, which will be \code{00000} when it is a close byte.
+
+\npara For example,
+\begin{itemize}
+  \item \code{0 00 01011} means in the current level there is the cell \code{c}
+  \item \code{0 01 10111} means in the current level there are children in the cell \code{r}
+  \item \code{0 10 00000} means it is a close byte
+\end{itemize}
+
+\npara In the other hand, S2 data need to be encoded using base64 (or group by 6 bits).
+The first two bits indicate the open or close with the same notation as Geohash.
+The last six bits store the data.
+
+\npara For example,
+\begin{itemize}
+  \item \code{00 100110} means in the current level there is base64 of \code{m} which is 38
+  \item \code{01 010111} means in the current level there are children in base64 of \code{X}
+  \item \code{10 000000} means it is a close byte
+\end{itemize}

@@ -1,0 +1,32 @@
+\thispagestyle{plain}
+\begin{flushleft}
+  \LARGE
+  \textbf{Abstract}
+  \vspace{0.4cm}
+  \large
+\end{flushleft} \label{Abstract}
+
+\npara Internet of Things (\hyperref[Acronym-IoT]{IoT}) allows an object to connect to the internet network and observe or interact with a physical phenomenon.
+The communication technologies allow an \hyperref[Acronym-IoT]{IoT} device to discover and communicate with another one to exchange services like humans do in their social network.
+Knowing the reputation of another device is important to consider if it will trust before establishing a new connection to avoid an unexpected behaviour.
+The reputation of a device can also be varied depending on its geographical location.
+Thus, this thesis proposed an architecture to manage reputation values of end devices in an \hyperref[Acronym-IoT]{IoT} system, based on their located area.
+To avoid a hard workload of the system in the cloud layer, the proposed architecture follows the cloud-fog-edge concept by adding an intermediate layer called a fog layer.
+In this layer, multiple smaller devices are distributed, so it used the Blockchain technology to keep the reputation management to be consistent and fault-tolerant across different nodes in the layer.
+Ethereum, which is a Blockchain implementation, was used in this work to ease the management functionalities, because it allows the Blockchain network to run a decentralised application through the Smart Contracts.
+The location-based part of the system was done by storing geographical areas in the Smart Contracts, and make the reputation values to be subjected to different regions depending on device geographical location.
+To reduce the spatial computation complexity in the Smart Contracts, the geographical data are geocoded by either one of two different spatial indexing techniques called Geohash and S2.
+This work introduced three experiments to test the proposed architecture, to deploy the architecture in \hyperref[Acronym-IoT]{IoT} devices, and to compare the two geocoding techniques in the Smart Contracts.
+It also additionally proposed a compression algorithm of the geocoded data.
+The results showed that the proposed architecture is able to serve the objective of managing the reputation values based on location in a decentralised way.
+The test case scenario also demonstrated that the \hyperref[Acronym-IoT]{IoT} devices were able to work as a Blockchain node.
+They also were able to discover the service providers in an area and obtain their reputation values by querying through the fog layer.
+Lastly, the comparison experiment results showed that Geohash performed better inside the developed Smart Contracts, while S2 encoded the data much faster outside the Smart Contracts.
+The proposed compression algorithm of geocoded data resulted in a significant size reduction, but it was computationally heavier in the developed Smart Contracts.
+
+\npara \textbf{Keywords:}
+  \textit{Internet of Things (\hyperref[Acronym-IoT]{IoT})},
+  \textit{Location-Based Trust and Reputation Management},
+  \textit{Spatial Indexing},
+  \textit{Ethereum Smart Contract},
+  \textit{Decentralised Application}
